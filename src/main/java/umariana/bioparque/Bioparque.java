@@ -30,7 +30,12 @@ public class Bioparque {
             System.out.println("8. Ver resumen del inventario");
             System.out.println("0. Salir");
             System.out.print("Selecciona una opcion: ");
-            opc = Integer.parseInt(lector.nextLine());
+            
+            try {
+                opc = Integer.parseInt(lector.nextLine());
+            } catch (NumberFormatException e) {
+                opc = -1; // Le asignamos -1 para que caiga en el default del switch
+            }
             
             switch (opc) {
                 case 1 ->gestionar.registrarAnimal();
