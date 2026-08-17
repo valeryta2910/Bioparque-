@@ -10,22 +10,41 @@ package umariana.bioparque;
  */
 public class Animal {
     //Atributos
-    private int codigo;
+    private final int codigo;
     private String nombre;
     private int edad;
     private double peso;
     private String sexo;
     private EstadoSalud estadoSalud;
     private EstadoInventario estadoInventario;
-    private String fechaIngreso;
+    private final String fechaIngreso;
     private String habitatAsignado;
-    
-    //Constructor vacío siempre
-    public Animal(){
-    }
     
     //Constructor con todos los atributos
     public Animal (int codigo, String nombre, int edad, double peso, String sexo, EstadoSalud estadoSalud, EstadoInventario estadoInventario, String fechaIngreso, String habitatAsignado){
+        
+        if(codigo<=0){
+            throw new IllegalArgumentException("El código debe ser un número positivo");
+        }
+        if(nombre == null || nombre.trim().isEmpty()){
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        }
+        if(edad < 0){
+            throw new IllegalArgumentException("La edad no puede ser negativa");
+        }
+        if(peso <= 0){
+            throw new IllegalArgumentException("El peso debe ser mayor que 0");
+        }
+        if(sexo == null || sexo.trim().isEmpty()){
+            throw new IllegalArgumentException("El sexo no puede estar vacío");
+        }
+        if(habitatAsignado == null || habitatAsignado.trim().isEmpty()){
+            throw new IllegalArgumentException("El hábitat asignado no puede estar vacío");
+        }
+        if(fechaIngreso == null || fechaIngreso.trim().isEmpty()){
+            throw new IllegalArgumentException("La fecha de ingreso no puede estar vacía");
+        }
+        
         this.codigo = codigo;
         this.nombre = nombre;
         this.edad = edad;
@@ -43,72 +62,109 @@ public class Animal {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
-    }
-
     public String getNombre() {
         return nombre;
     }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void corregirNombre(String nuevoNombre){
+        if (nuevoNombre == null || nuevoNombre.trim().isEmpty()){
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        }
+        this.nombre = nuevoNombre;
     }
 
     public int getEdad() {
         return edad;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
     public double getPeso() {
         return peso;
     }
-
-    public void setPeso(double peso) {
-        this.peso = peso;
+    public void validarQueSigaBajoCuidado(){
+        if(this.estadoInventario == EstadoInventario.RETIRADO){
+            throw new IllegalArgumentException("No se puede actualizar este dato: el animal está retirado");
+        }
+        if(this.estadoInventario == EstadoInventario.FALLECIDO){
+            throw new IllegalArgumentException("No se puede actualizar este dato: el animal está fallecido");
+        }
+    }
+    public void actualizarPeso(double nuevoPeso){
+        validarQueSigaBajoCuidado();
+        if(nuevoPeso<=0){
+            throw new IllegalArgumentException("El peso debe ser mayor que 0");
+        }
+        this.peso = nuevoPeso;
     }
 
     public String getSexo() {
         return sexo;
     }
 
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
-
     public EstadoSalud getEstadoSalud() {
         return estadoSalud;
     }
-
-    public void setEstadoSalud(EstadoSalud estadoSalud) {
-        this.estadoSalud = estadoSalud;
+    public void cambiarEstadoSalud(EstadoSalud nuevoEstado){
+        validarQueSigaBajoCuidado();
+        if(nuevoEstado == null){
+            throw new IllegalArgumentException("El estado de salud no puede ser nulo");
+        }
+        this.estadoSalud = nuevoEstado;
     }
 
     public EstadoInventario getEstadoInventario() {
         return estadoInventario;
     }
-
-    public void setEstadoInventario(EstadoInventario estadoInventario) {
-        this.estadoInventario = estadoInventario;
+    public void ponerEnObservacion(){
+        if(this.estadoInventario == EstadoInventario.RETIRADO){
+            throw new IllegalArgumentException("No se puede poner en observación un animal retirado");
+        }
+        if(this.estadoInventario == EstadoInventario.FALLECIDO){
+            throw new IllegalArgumentException("No se puede poner en observación un animal fallecido");
+        }
+        this.estadoInventario = EstadoInventario.EN_OBSERVACION;
     }
-
+    public void activar(){
+        if(this.estadoInventario == EstadoInventario.RETIRADO){
+            throw new IllegalArgumentException("No se puede activar un animal retirado");
+        }
+        if(this.estadoInventario == EstadoInventario.FALLECIDO){
+            throw new IllegalArgumentException("No se puede activar un animal fallecido");
+        }
+        this.estadoInventario = EstadoInventario.ACTIVO;
+    }
+    //retirar(). No falleció, rpresenta que el animal salió de bioparque, pero sigue vivo
+    public void retirar(){
+        if(this.estadoInventario == EstadoInventario.RETIRADO){
+            throw new IllegalArgumentException("El animal ya esta retirado");
+        }
+        if(this.estadoInventario == EstadoInventario.FALLECIDO){
+            throw new IllegalArgumentException("No se puede retirar un animal fallecido");
+        }
+        this.estadoInventario = EstadoInventario.RETIRADO;
+    }
+    // Fallecimiento, irreversible, el animal murió, no salió vivo de bioparque, se conserva en el inventario su historial
+    public void registrarFallecimiento(){
+        if(this.estadoInventario == EstadoInventario.FALLECIDO){
+            throw new IllegalArgumentException("El animal ya esta registrado como fallecido");
+        }
+        if(this.estadoInventario == EstadoInventario.RETIRADO){
+            throw new IllegalArgumentException("No se puede registrar el fallecimiento de un animal ya retirado del bioparque");
+        }
+        this.estadoInventario = EstadoInventario.FALLECIDO;
+    }
+    
     public String getFechaIngreso() {
         return fechaIngreso;
-    }
-
-    public void setFechaIngreso(String fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
     }
 
     public String getHabitatAsignado() {
         return habitatAsignado;
     }
-
-    public void setHabitatAsignado(String habitatAsignado) {
-        this.habitatAsignado = habitatAsignado;
+    public void trasladarHabitat(String nuevoHabitat){
+        validarQueSigaBajoCuidado();
+        if(nuevoHabitat == null || nuevoHabitat.trim().isEmpty()){
+            throw new IllegalArgumentException("El hábitat no puede estar vacío");
+        }
+        this.habitatAsignado = nuevoHabitat;
     }
     
     public void mostrarInfo(){

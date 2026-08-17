@@ -10,14 +10,13 @@ package umariana.bioparque;
  */
 public class Reptil extends Animal{
     private String tipoEscamas;
-    
-    //Constructor vacío siempre
-    public Reptil(){
-    }
  
     //Constructor con los atributos
     public Reptil (int codigo, String nombre, int edad, double peso, String sexo, EstadoSalud estadoSalud, EstadoInventario estadoInventario, String fechaIngreso, String habitatAsignado, String tipoEscamas){
         super (codigo, nombre, edad, peso, sexo, estadoSalud, estadoInventario, fechaIngreso, habitatAsignado);
+        if (tipoEscamas == null || tipoEscamas.trim().isEmpty()){
+            throw new IllegalArgumentException("El tipo de escamas no puede estar vacío");
+        }
         this.tipoEscamas = tipoEscamas;
     }
 
@@ -26,6 +25,9 @@ public class Reptil extends Animal{
     }
 
     public void setTipoEscamas(String tipoEscamas) {
+        if(tipoEscamas == null || tipoEscamas.trim().isEmpty()){
+            throw new IllegalArgumentException("El tipo de escamas no puede estar vacío");
+        }
         this.tipoEscamas = tipoEscamas;
     }
     

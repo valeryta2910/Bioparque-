@@ -11,5 +11,6 @@ package umariana.bioparque;
 public enum EstadoInventario {
     ACTIVO,
     EN_OBSERVACION,
-    RETIRADO
+    RETIRADO,
+    FALLECIDO
 }

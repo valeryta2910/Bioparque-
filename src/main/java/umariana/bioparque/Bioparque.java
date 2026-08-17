@@ -36,11 +36,11 @@ public class Bioparque {
                 case 1 ->gestionar.registrarAnimal();
                 case 2 ->gestionar.listarAnimales();  
                 case 3 ->gestionar.buscarAnimal();  
-                case 4 ->System.out.println("actualizarDatosAnimal"); 
-                case 5 ->System.out.println("retirarAnimal");
+                case 4 ->gestionar.actualizarDatosAnimal(); 
+                case 5 ->gestionar.retirarAnimal();
                 case 6 ->System.out.println("filtarPorComportamientoyEs");
                 case 7 ->System.out.println("ejecutarComportamiento");
-                case 8 ->System.out.println("gestionar.resumenInventario");
+                case 8 ->System.out.println("resumenInventario");
                 case 0 ->{
                     activo = false;
                     System.out.println("usted ha salido del sistema ");

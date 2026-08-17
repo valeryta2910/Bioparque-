@@ -12,13 +12,12 @@ public class Ave extends Animal{
     private double envergadura;
     private boolean puedeVolar;
     
-    //Constructor vacío siempre
-    public Ave(){
-    }
-    
     //Constructor con los atributos
     public Ave (int codigo, String nombre, int edad, double peso, String sexo, EstadoSalud estadoSalud, EstadoInventario estadoInventario, String fechaIngreso, String habitatAsignado, double envergadura, boolean puedeVolar){
         super (codigo, nombre, edad, peso, sexo, estadoSalud, estadoInventario, fechaIngreso, habitatAsignado);
+        if(envergadura<0){
+            throw new IllegalArgumentException("La envergadura no puede ser negativa");
+        }
         this.envergadura = envergadura;
         this.puedeVolar = puedeVolar;
     }
@@ -28,6 +27,9 @@ public class Ave extends Animal{
     }
 
     public void setEnvergadura(double envergadura) {
+        if (envergadura<0){
+            throw new IllegalArgumentException("La envergadura no puede ser negativa");
+        }
         this.envergadura = envergadura;
     }
 
