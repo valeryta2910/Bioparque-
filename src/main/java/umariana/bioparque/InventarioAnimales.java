@@ -33,6 +33,9 @@ public class InventarioAnimales {
     //Iniciamos creando los métodos
     public void registrarAnimal() //void es para cuando hay un cambio de estructura en los datos, aquí voy a agregar información. Es público porque lo voy a llamar desde otras clases.
     {
+        //PRUEBA intento controlado de instanciar Animal 
+        //Animal test = new Animal (1, "Test", 2, 5.0, "M", EstadoSalud.SANO, EstadoInventario.ACTIVO, "2026-08-19, "Zona de pruebas"); 
+                
         int codigo = siguienteCodigo;
         
         try{
@@ -210,6 +213,7 @@ public class InventarioAnimales {
             System.out.println("3. Estado de Salud");
             System.out.println("4. Nombre");
             System.out.println("5. Estado de inventario (ACTIVO/EN_OBSERVACIÓN/FALLECIDO)");
+            System.out.println("6. Celebrar cumpleaños (Incrementar edad)");
             int opcion = lector.nextInt();
             lector.nextLine();
         
@@ -284,6 +288,10 @@ public class InventarioAnimales {
                     
                     System.out.println("Estado del inventario actualizado con éxito");
                     break;
+                case 6: 
+                    encontrado.cumplirAnios();
+                    System.out.println("Feliz cumpleaños a: " + encontrado.getNombre() + " Ahora tiene: " + encontrado.getEdad() + " años");
+                    break;
                 default:
                     System.out.println("Opción no válida");
                     return;      
@@ -320,6 +328,101 @@ public class InventarioAnimales {
             System.out.println("El animal no se pudo retirar: " + e.getMessage());
         } catch (InputMismatchException e){
             System.out.println("Debe ingresar un número válido para el código");
+            lector.nextLine();
+        }
+    }
+    
+    //Filtrar inventario por categoria o estado sin alterar la colleción original
+    public void filtrarInventario(){
+        if (misAnimales.isEmpty()){
+            System.out.println("No hay animales registrados");
+            return;
+        }
+        
+        try{
+            System.out.println("¿Cómo desea filtrar?");
+            System.out.println("1. Por categoría");
+            System.out.println("2. Por estado de inventario");
+            int opcionFiltro = lector.nextInt();
+            lector.nextLine();
+            
+            switch (opcionFiltro){
+                case 1: 
+                    System.out.println("Seleccione la categoría: ");
+                    System.out.println("1. Mamífero");
+                    System.out.println("2. Ave");
+                    System.out.println("3. Reptil");
+                    int categoria = lector.nextInt();
+                    lector.nextLine();
+                    
+                    boolean encontroCategoria = false;
+                    for (Animal a : misAnimales){
+                        if (categoria == 1 && a instanceof Mamifero){
+                            a.mostrarInfo();
+                            System.out.println("=======================");
+                            encontroCategoria = true;
+                        }
+                        else if (categoria == 2 && a instanceof Ave){
+                            a.mostrarInfo();
+                            System.out.println("=======================");
+                            encontroCategoria = true;
+                        }
+                        else if (categoria == 3 && a instanceof Reptil){
+                            a.mostrarInfo();
+                            System.out.println("=======================");
+                            encontroCategoria = true;
+                        }
+                    }
+                    if (!encontroCategoria){
+                        System.out.println("No hay animales registrados");
+                    }
+                    break;
+                    
+                case 2: 
+                    System.out.println("Seleccione el estado: ");
+                    System.out.println("1. ACTIVO");
+                    System.out.println("2. EN_OBSERVACION");
+                    System.out.println("3. RETIRADO");
+                    System.out.println("4. FALLECIDO");
+                    int opcionEstado = lector.nextInt();
+                    lector.nextLine();
+                    EstadoInventario estadoBuscado;
+                    switch (opcionEstado){
+                        case 1: 
+                            estadoBuscado = EstadoInventario.ACTIVO;
+                            break;
+                        case 2:
+                            estadoBuscado = EstadoInventario.EN_OBSERVACION;
+                            break;
+                        case 3: 
+                            estadoBuscado = EstadoInventario.RETIRADO;
+                            break;
+                        case 4:
+                            estadoBuscado = EstadoInventario.FALLECIDO;
+                            break;
+                        default:
+                            System.out.println("Opción no válida");
+                            return;
+                    }
+                    
+                    boolean encontroEstado = false;
+                    for (Animal a : misAnimales){
+                        if (a.getEstadoInventario() == estadoBuscado){
+                            a.mostrarInfo();
+                            System.out.println("=======================");
+                            encontroEstado = true;
+                        }
+                    }
+                    if (!encontroEstado){
+                        System.out.println("No hay animales registrados");
+                    }
+                    break;
+                    
+                default:
+                    System.out.println("Opción no válida");
+            }
+        }catch (InputMismatchException e){
+            System.out.println("Debe ingresar un número válido");
             lector.nextLine();
         }
     }

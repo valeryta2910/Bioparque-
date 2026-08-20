@@ -41,9 +41,24 @@ public class Ave extends Animal{
         this.puedeVolar = puedeVolar;
     }
     
+    @Override
     public void mostrarInfo(){
         super.mostrarInfo();
         System.out.println("Envergadura: " + envergadura);
-        System.out.println("Vuela: " + (puedeVolar ? "Si" : "No"));        
+        System.out.println("Vuela: " + (puedeVolar ? "Si" : "No"));    
+        System.out.println("Alimentacion: " + obtenerTipoAlimentacion());
+        System.out.println("Ración diaría recomendada: " + calcularRacionDiaria() + "kg");
+    }
+    
+    //Aves del bioparque se alimentan de semillas, insectos o pescado. según su capacidad de vuelo y gasto energético al volar.
+    @Override
+    public String obtenerTipoAlimentacion(){
+        return "Dieta de ave: semillas, insectos o pescado, ajustado a su capacidad de vuelo y gasto energético";
+    }
+    
+    //Aves requieren acerca del 10% de su peso corporal al día
+    @Override
+    public double calcularRacionDiaria(){
+        return getPeso() * 0.10;
     }
 }

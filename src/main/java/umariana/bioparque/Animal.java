@@ -8,7 +8,7 @@ package umariana.bioparque;
  *
  * @author Tatiana Acosta
  */
-public class Animal {
+public abstract class Animal implements Alimentable {
     //Atributos
     private final int codigo;
     private String nombre;
@@ -75,11 +75,17 @@ public class Animal {
     public int getEdad() {
         return edad;
     }
+    
+    public void cumplirAnios(){ //Método concreto, todas las categorías cumplen años de la misma forma
+        this.edad++;
+    }
+    
+    public abstract String obtenerTipoAlimentacion();
 
     public double getPeso() {
         return peso;
     }
-    public void validarQueSigaBajoCuidado(){
+    private void validarQueSigaBajoCuidado(){
         if(this.estadoInventario == EstadoInventario.RETIRADO){
             throw new IllegalArgumentException("No se puede actualizar este dato: el animal está retirado");
         }

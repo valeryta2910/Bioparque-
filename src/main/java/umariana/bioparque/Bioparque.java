@@ -43,7 +43,7 @@ public class Bioparque {
                 case 3 ->gestionar.buscarAnimal();  
                 case 4 ->gestionar.actualizarDatosAnimal(); 
                 case 5 ->gestionar.retirarAnimal();
-                case 6 ->System.out.println("filtarPorComportamientoyEs");
+                case 6 ->gestionar.filtrarInventario();
                 case 7 ->System.out.println("ejecutarComportamiento");
                 case 8 ->System.out.println("resumenInventario");
                 case 0 ->{
