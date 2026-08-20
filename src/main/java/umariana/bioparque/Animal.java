@@ -18,10 +18,10 @@ public abstract class Animal implements Alimentable {
     private EstadoSalud estadoSalud;
     private EstadoInventario estadoInventario;
     private final String fechaIngreso;
-    private String habitatAsignado;
+    private Habitat habitatAsignado;
     
     //Constructor con todos los atributos
-    public Animal (int codigo, String nombre, int edad, double peso, String sexo, EstadoSalud estadoSalud, EstadoInventario estadoInventario, String fechaIngreso, String habitatAsignado){
+    public Animal (int codigo, String nombre, int edad, double peso, String sexo, EstadoSalud estadoSalud, EstadoInventario estadoInventario, String fechaIngreso, Habitat habitatAsignado){
         
         if(codigo<=0){
             throw new IllegalArgumentException("El código debe ser un número positivo");
@@ -38,8 +38,8 @@ public abstract class Animal implements Alimentable {
         if(sexo == null || sexo.trim().isEmpty()){
             throw new IllegalArgumentException("El sexo no puede estar vacío");
         }
-        if(habitatAsignado == null || habitatAsignado.trim().isEmpty()){
-            throw new IllegalArgumentException("El hábitat asignado no puede estar vacío");
+        if(habitatAsignado == null){
+            throw new IllegalArgumentException("El hábitat asignado no puede ser nulo");
         }
         if(fechaIngreso == null || fechaIngreso.trim().isEmpty()){
             throw new IllegalArgumentException("La fecha de ingreso no puede estar vacía");
@@ -53,7 +53,8 @@ public abstract class Animal implements Alimentable {
         this.estadoSalud = estadoSalud;
         this.estadoInventario = estadoInventario;
         this.fechaIngreso = fechaIngreso;
-        this.habitatAsignado = habitatAsignado;        
+        this.habitatAsignado = habitatAsignado;
+        habitatAsignado.agregarAnimal(this); //Se registra en la lista de hábitat y si esta lleno lanza excepción 
     }
     
     //Getter y Setter
@@ -162,13 +163,17 @@ public abstract class Animal implements Alimentable {
         return fechaIngreso;
     }
 
-    public String getHabitatAsignado() {
+    public Habitat getHabitatAsignado() {
         return habitatAsignado;
     }
-    public void trasladarHabitat(String nuevoHabitat){
+    public void trasladarHabitat(Habitat nuevoHabitat){
         validarQueSigaBajoCuidado();
-        if(nuevoHabitat == null || nuevoHabitat.trim().isEmpty()){
-            throw new IllegalArgumentException("El hábitat no puede estar vacío");
+        if(nuevoHabitat == null){
+            throw new IllegalArgumentException("El hábitat no puede ser nulo");
+        }
+        nuevoHabitat.agregarAnimal(this);//Valida capacidad primero, si falla el traslado no se completa
+        if(this.habitatAsignado != null){
+            this.habitatAsignado.retirarAnimalDeHabitat(this);
         }
         this.habitatAsignado = nuevoHabitat;
     }
@@ -182,6 +187,6 @@ public abstract class Animal implements Alimentable {
         System.out.println("Salud: " + estadoSalud);         
         System.out.println("Estado: " + estadoInventario);            
         System.out.println("Ingreso: " + fechaIngreso);        
-        System.out.println("Hábitat: " + habitatAsignado);        
+        System.out.println("Hábitat: " + habitatAsignado.getNombreHabitat());        
     }
 }

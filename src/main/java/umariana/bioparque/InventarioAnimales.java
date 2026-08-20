@@ -14,11 +14,17 @@ public class InventarioAnimales {
 
     Scanner lector = new Scanner(System.in);
     ArrayList<Animal> misAnimales = new ArrayList<>();
+    ArrayList<Habitat> misHabitats = new ArrayList<>();
     
     private int siguienteCodigo = 1;
     
-    //Constructor vacío siempre 
     public InventarioAnimales(){
+        //Los hpabitatas están definidos y delimintados desde el inicio.
+        misHabitats.add(new Habitat("Sabana", 25, 10));
+        misHabitats.add(new Habitat("Bosque tropical", 28, 8));
+        misHabitats.add(new Habitat("Paramo", 12, 6));
+        misHabitats.add(new Habitat("Acuario", 22, 15));
+        misHabitats.add(new Habitat("Aviario", 20, 12));
     }
     
     private Animal buscarPorCodigo(int codigo) {
@@ -30,11 +36,26 @@ public class InventarioAnimales {
         return null;
     }
     
+    //Muestra la tabla fija de hábitats 
+    private Habitat seleccionarHabitat(){
+        System.out.println("Seleccione el hábitat: ");
+        for(int i=0; i < misHabitats.size(); i++){
+            Habitat h = misHabitats.get(i);
+            System.out.println((i + 1) + ". " + h.getNombreHabitat() + " (Temperatura: " + h.getTemperatura() + "°C, cupos disponibles: " + (h.getCapacidadMaxima()-h.contarAnimales()) + "/" + h.getCapacidadMaxima() + ")");
+        }
+        int opcion = lector.nextInt();
+        lector.nextLine();
+        if (opcion < 1 || opcion > misHabitats.size()){
+            throw new IllegalArgumentException("Hábitat no válido");
+        }
+        return misHabitats.get(opcion - 1);
+    }
+    
     //Iniciamos creando los métodos
     public void registrarAnimal() //void es para cuando hay un cambio de estructura en los datos, aquí voy a agregar información. Es público porque lo voy a llamar desde otras clases.
     {
         //PRUEBA intento controlado de instanciar Animal 
-        //Animal test = new Animal (1, "Test", 2, 5.0, "M", EstadoSalud.SANO, EstadoInventario.ACTIVO, "2026-08-19, "Zona de pruebas"); 
+        //Animal test = new Animal (1, "Test", 2, 5.0, "M", EstadoSalud.SANO, EstadoInventario.ACTIVO, "2026-08-19, new Habitat("Sabana", 25, 15); 
                 
         int codigo = siguienteCodigo;
         
@@ -99,8 +120,7 @@ public class InventarioAnimales {
 
             System.out.println("Ingrese la fecha de ingreso del animal");
             String fechaIngreso = lector.nextLine();
-            System.out.println("Ingrese el hábitat asignado");
-            String habitatAsignado = lector.nextLine();
+            Habitat habitatAsignado = seleccionarHabitat();
 
             //Categoría
             System.out.println("Seleccione la categoría: ");
@@ -226,8 +246,7 @@ public class InventarioAnimales {
                     System.out.println("Peso actualizado con éxito");
                     break;
                 case 2:
-                    System.out.println("Ingrese el nuevo hábitat: ");
-                    String nuevoHabitat = lector.nextLine();
+                    Habitat nuevoHabitat = seleccionarHabitat();
                     encontrado.trasladarHabitat(nuevoHabitat);
                     System.out.println("Hábitat actualizado con éxito");
                     break;

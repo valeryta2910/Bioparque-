@@ -12,7 +12,7 @@ public class Reptil extends Animal{
     private String tipoEscamas;
  
     //Constructor con los atributos
-    public Reptil (int codigo, String nombre, int edad, double peso, String sexo, EstadoSalud estadoSalud, EstadoInventario estadoInventario, String fechaIngreso, String habitatAsignado, String tipoEscamas){
+    public Reptil (int codigo, String nombre, int edad, double peso, String sexo, EstadoSalud estadoSalud, EstadoInventario estadoInventario, String fechaIngreso, Habitat habitatAsignado, String tipoEscamas){
         super (codigo, nombre, edad, peso, sexo, estadoSalud, estadoInventario, fechaIngreso, habitatAsignado);
         if (tipoEscamas == null || tipoEscamas.trim().isEmpty()){
             throw new IllegalArgumentException("El tipo de escamas no puede estar vacío");

@@ -13,7 +13,7 @@ public class Ave extends Animal{
     private boolean puedeVolar;
     
     //Constructor con los atributos
-    public Ave (int codigo, String nombre, int edad, double peso, String sexo, EstadoSalud estadoSalud, EstadoInventario estadoInventario, String fechaIngreso, String habitatAsignado, double envergadura, boolean puedeVolar){
+    public Ave (int codigo, String nombre, int edad, double peso, String sexo, EstadoSalud estadoSalud, EstadoInventario estadoInventario, String fechaIngreso, Habitat habitatAsignado, double envergadura, boolean puedeVolar){
         super (codigo, nombre, edad, peso, sexo, estadoSalud, estadoInventario, fechaIngreso, habitatAsignado);
         if(envergadura<0){
             throw new IllegalArgumentException("La envergadura no puede ser negativa");

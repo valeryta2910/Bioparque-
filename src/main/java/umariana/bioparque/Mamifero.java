@@ -12,7 +12,7 @@ public class Mamifero extends Animal{
     private String tipoPelaje;
     
     //Constructor con los atributos
-    public Mamifero (int codigo, String nombre, int edad, double peso, String sexo, EstadoSalud estadoSalud, EstadoInventario estadoInventario, String fechaIngreso, String habitatAsignado, String tipoPelaje){
+    public Mamifero (int codigo, String nombre, int edad, double peso, String sexo, EstadoSalud estadoSalud, EstadoInventario estadoInventario, String fechaIngreso, Habitat habitatAsignado, String tipoPelaje){
         super (codigo, nombre, edad, peso, sexo, estadoSalud, estadoInventario, fechaIngreso, habitatAsignado);
         if(tipoPelaje == null || tipoPelaje.trim().isEmpty()){
             throw new IllegalArgumentException("El tipo de pelaje no puede estar vacío");
