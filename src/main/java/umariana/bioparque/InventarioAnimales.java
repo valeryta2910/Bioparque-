@@ -445,5 +445,84 @@ public class InventarioAnimales {
             lector.nextLine();
         }
     }
+    
+    public void ejecutarComportamientos(){
+        if (misAnimales.isEmpty()){
+            System.out.println("No hay animales registrados");
+            return;
+        }
+        
+        System.out.println("====ALIMENTACIÓN DE TODOS LOS ANIMALES DE BIOPARQUE====");
+        for(Animal a: misAnimales){
+            System.out.println(a.getNombre() + "(Código: " + a.getCodigo() + "): " + a.obtenerTipoAlimentacion());
+            System.out.println("Ración diaría recomendada: " + a.calcularRacionDiaria());
+            System.out.println("=====================================");
+        }
+    }
+    
+    public void resumenInventario(){
+        if (misAnimales.isEmpty()){
+            System.out.println("No hay animales registrados");
+            return;
+        }
+        
+        int totalMamiferos = 0;
+        int totalAves = 0;
+        int totalReptiles = 0;
+        int totalActivos = 0;
+        int totalEnObservacion = 0;
+        int totalRetirados = 0;
+        int totalFallecidos = 0;
+        double racionDiariaMamiferos = 0;
+        double racionDiariaAves = 0;
+        double racionDiariaReptiles = 0;
+        
+        for (Animal a: misAnimales){
+            if (a instanceof Mamifero){
+                totalMamiferos++;
+                racionDiariaMamiferos += a.calcularRacionDiaria();
+            }
+            else if (a instanceof Ave){
+                totalAves++;
+                racionDiariaAves += a.calcularRacionDiaria();
+            }
+            else if (a instanceof Reptil){
+                totalReptiles++;
+                racionDiariaReptiles += a.calcularRacionDiaria();
+            }
+            
+            switch (a.getEstadoInventario()){
+                case ACTIVO:
+                    totalActivos++;
+                    break;
+                case EN_OBSERVACION:
+                    totalEnObservacion++;
+                    break;
+                case RETIRADO:
+                    totalRetirados++;
+                    break;
+                case FALLECIDO:
+                    totalFallecidos++;
+                    break;
+            }
+        }
+        double racionTotal = racionDiariaMamiferos+racionDiariaAves+racionDiariaReptiles;
+        
+        System.out.println("====RESUMEN DEL INVENTARIO");
+        System.out.println("Total de animales registrados: " + misAnimales.size());
+        System.out.println("Total mamíferos en Bioparque: " + totalMamiferos);
+        System.out.println("Total aves en Bioparque: " + totalAves);
+        System.out.println("Total reptiles en Bioparque: " + totalReptiles);
+        System.out.println("=============================");
+        System.out.println("Total animales activos en Bioparque: " + totalActivos);
+        System.out.println("Total animales en observación en Bioparque: " + totalEnObservacion);
+        System.out.println("Total animales retirados en Bioparque: " + totalRetirados);
+        System.out.println("Total animales fallecidos en Bioparque: " + totalFallecidos);
+        System.out.println("=============================");
+        System.out.println("Total ración diaria de mamíferos: " + racionDiariaMamiferos + " kg");
+        System.out.println("Total ración diaria de aves: " + racionDiariaAves + " kg");
+        System.out.println("Total ración diaria de reptiles: " + racionDiariaReptiles + " kg");
+        System.out.println("Ración diaría total del Bioparque: " + racionTotal + " kg (Es referencial, cada categoría tiene un costo diferente por kg)");
+    }
 }    
     
